@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Building Peach 2026</title>
+<meta name="description" content="A phase-by-phase checklist for building Peach 2026 — a Debian-based Apple II tribute distro that runs entirely as a VirtualBox appliance via PeachSquared, our fork of GSSquared.">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="top">
+  <div class="top-inner">
+    <div class="wordmark">PEACH<span class="mono" style="color:var(--accent-ink)">2026</span><span class="cursor"></span></div>
+    <div class="progress-readout">
+      <span class="bar mono" id="bar">[░░░░░░░░░░░░░░░░░░░░░░░░]</span>
+      <span id="count">0 / 0</span>
+      <button class="reset-link" id="resetBtn" type="button">reset</button>
+    </div>
+  </div>
+</header>
+
+<div class="page">
+
+  <p class="eyebrow">Build checklist — 10 phases</p>
+  <h1>Building Peach 2026</h1>
+  <p class="lede">A Debian-based Linux distribution that carries the Apple I through IIGS line forward — booting into any machine profile via PeachSquared, our fork of the open-source GSSquared core, with the beeps, the phosphor green, and the disk-drive chatter intact. Peach 2026 ships entirely as a VirtualBox appliance — no bare-metal install, no dual-boot. This is the phase-by-phase punch list from legal footing to launch day. Checked state saves locally in this browser.</p>
+
+  <p class="prompt-line">]LOAD PEACH.PROJECT<br>]RUN</p>
+
+  <div class="palette-strip">
+    <span class="cap">Reference: the six-color hi-res palette this whole UI answers to —</span>
+    <span class="swatch"><i style="background:var(--swatch-black)"></i>black</span>
+    <span class="swatch"><i style="background:var(--swatch-green)"></i>green</span>
+    <span class="swatch"><i style="background:var(--swatch-violet)"></i>violet</span>
+    <span class="swatch"><i style="background:var(--swatch-orange)"></i>orange</span>
+    <span class="swatch"><i style="background:var(--swatch-blue)"></i>blue</span>
+    <span class="swatch"><i style="background:var(--swatch-white)"></i>white</span>
+  </div>
+
+  <nav class="toc" aria-label="Phase index">
+    <a href="#p1"><span class="n">01</span>Scope, brand &amp; legal</a>
+    <a href="#p2"><span class="n">02</span>Base system &amp; build</a>
+    <a href="#p3"><span class="n">03</span>Emulation core</a>
+    <a href="#p4"><span class="n">04</span>Boot &amp; identity</a>
+    <a href="#p5"><span class="n">05</span>Sound &amp; voice</a>
+    <a href="#p6"><span class="n">06</span>Software library</a>
+    <a href="#p7"><span class="n">07</span>Packaging &amp; appliance</a>
+    <a href="#p8"><span class="n">08</span>QA &amp; performance</a>
+    <a href="#p9"><span class="n">09</span>Docs &amp; onboarding</a>
+    <a href="#p10"><span class="n">10</span>Community &amp; upkeep</a>
+  </nav>
+
+  <section class="phase" id="p1">
+    <div class="phase-head">
+      <div class="phase-title"><span class="phase-num mono">01</span><h2>Scope, Brand &amp; Legal Footing</h2></div>
+      <span class="phase-count mono" data-count></span>
+    </div>
+    <p class="phase-desc">Settle what Peach is and isn't before any code lands — this is the phase every other decision inherits from.</p>
+    <ul class="items">
+      <li class="item"><input type="checkbox" id="i1-1"><label for="i1-1"><span class="box"></span><span class="item-text">Confirm "Peach" carries no active trademark conflict for computer hardware/software — an informal check looks clear, but revisit before the project scales beyond hobbyist distribution.</span></label></li>
+      <li class="item"><input type="checkbox" id="i1-2"><label for="i1-2"><span class="box"></span><span class="item-text">Lock in the house style: oblique nods to Apple II history are welcome ("//e Edition," period-correct terminology), but no direct use of Apple's name, marks, or artwork anywhere in the UI, packaging, or docs.</span></label></li>
+      <li class="item"><input type="checkbox" id="i1-3"><label for="i1-3"><span class="box"></span><span class="item-text">Ship 1.0 without bundled ROMs — document where users can source their own dumps, since images already circulate online — and flag a legitimate, Apple-friendly licensing path as a post-1.0 investigation.</span></label></li>
+      <li class="item"><input type="checkbox" id="i1-4"><label for="i1-4"><span class="box"></span><span class="item-text">Fix the machine roster — Peach I, II, II+, //e, and IIGS profiles — and record the /// as explicitly out of scope.</span></label></li>
+      <li class="item"><input type="checkbox" id="i1-5"><label for="i1-5"><span class="box"></span><span class="item-text">Get GSSquared's licensing nailed down with its author before PeachSquared ships — no license is currently specified upstream, and the project is proceeding on an assumed GPLv3 basis that needs confirming.</span></label></li>
+      <li class="item"><input type="checkbox" id="i1-6"><label for="i1-6"><span class="box"></span><span class="item-text">Write a one-page charter: audience (hobbyists, educators, preservationists), explicit non-goals, and what "1.0" means.</span></label></li>
+    </ul>
+  </section>
+
+  <section class="phase" id="p2">
+    <div class="phase-head">
+      <div class="phase-title"><span class="phase-num mono">02</span><h2>Base System &amp; Build Pipeline</h2></div>
+      <span class="phase-count mono" data-count></span>
+    </div>
+    <p class="phase-desc">The plumbing everything else gets packaged onto — a repeatable path from source tree to a bootable VirtualBox appliance.</p>
+    <ul class="items">
+      <li class="item"><input type="checkbox" id="i2-1"><label for="i2-1"><span class="box"></span><span class="item-text">Choose the Debian track (stable vs. testing) as upstream base and set a mirror/tracking policy.</span></label></li>
+      <li class="item"><input type="checkbox" id="i2-2"><label for="i2-2"><span class="box"></span><span class="item-text">Stand up a VBoxManage/Packer pipeline that builds the official .ova appliance from a single repo checkout, plus an installable ISO for anyone assembling their own VM.</span></label></li>
+      <li class="item"><input type="checkbox" id="i2-3"><label for="i2-3"><span class="box"></span><span class="item-text">Wire CI to rebuild the appliance on every merge and smoke-test the boot in headless VirtualBox.</span></label></li>
+      <li class="item"><input type="checkbox" id="i2-4"><label for="i2-4"><span class="box"></span><span class="item-text">Target x86_64 only, and document host prerequisites: VT-x/AMD-V, nested virtualization if the host is itself a VM, and a minimum VirtualBox version.</span></label></li>
+      <li class="item"><input type="checkbox" id="i2-5"><label for="i2-5"><span class="box"></span><span class="item-text">Establish a peach-* package namespace so Peach's own packages stay distinguishable from stock Debian.</span></label></li>
+      <li class="item"><input type="checkbox" id="i2-6"><label for="i2-6"><span class="box"></span><span class="item-text">Set a virtual-disk size budget for a minimal appliance, plus a "full" flavor carrying the complete software library.</span></label></li>
+    </ul>
+  </section>
+
+  <section class="phase" id="p3">
+    <div class="phase-head">
+      <div class="phase-title"><span class="phase-num mono">03</span><h2>Emulation Core</h2></div>
+      <span class="phase-count mono" data-count></span>
+    </div>
+    <p class="phase-desc">PeachSquared — our fork of GSSquared — is the heart of the machine; this is where accuracy either holds up or doesn't.</p>
+    <ul class="items">
+      <li class="item"><input type="checkbox" id="i3-1"><label for="i3-1"><span class="box"></span><span class="item-text">Fork GSSquared under the PeachSquared name once its license is confirmed (see Phase 01); set up an upstream remote and a merge/rebase policy for pulling in GSSquared fixes.</span></label></li>
+      <li class="item"><input type="checkbox" id="i3-2"><label for="i3-2"><span class="box"></span><span class="item-text">Package PeachSquared as a native .deb with proper dependency declarations and a peach-emulator-core metapackage.</span></label></li>
+      <li class="item"><input type="checkbox" id="i3-3"><label for="i3-3"><span class="box"></span><span class="item-text">Build machine-profile presets covering I, II, II+, //e, and IIGS timing, memory maps, and video modes.</span></label></li>
+      <li class="item"><input type="checkbox" id="i3-4"><label for="i3-4"><span class="box"></span><span class="item-text">Wire up .dsk/.po/.2mg/.woz disk-image handling with a front-end for mounting and creating images.</span></label></li>
+      <li class="item"><input type="checkbox" id="i3-5"><label for="i3-5"><span class="box"></span><span class="item-text">Implement Mockingboard and Apple II speaker emulation, routed correctly to ALSA/PipeWire.</span></label></li>
+      <li class="item"><input type="checkbox" id="i3-6"><label for="i3-6"><span class="box"></span><span class="item-text">Map USB gamepad input — passed through via VirtualBox's USB controller — to emulated paddle and joystick hardware.</span></label></li>
+      <li class="item"><input type="checkbox" id="i3-7"><label for="i3-7"><span class="box"></span><span class="item-text">Build a regression suite of known-good disk images and timing-sensitive programs to catch emulation-accuracy drift.</span></label></li>
+      <li class="item"><input type="checkbox" id="i3-8"><label for="i3-8"><span class="box"></span><span class="item-text">Decide whether USB passthrough is documented as a bridge to ADTPro-style transfers, for anyone using Peach to talk to real vintage hardware.</span></label></li>
+    </ul>
+  </section>
+
+  <section class="phase" id="p4">
+    <div class="phase-head">
+      <div class="phase-title"><span class="phase-num mono">04</span><h2>Boot &amp; System Identity</h2></div>
+      <span class="phase-count mono" data-count></span>
+    </div>
+    <p class="phase-desc">The first ten seconds after power-on are what people will screenshot — make them count.</p>
+    <ul class="items">
+      <li class="item"><input type="checkbox" id="i4-1"><label for="i4-1"><span class="box"></span><span class="item-text">Design a Plymouth boot theme: a simulated self-test and RGB color-bar pattern before hand-off to the desktop.</span></label></li>
+      <li class="item"><input type="checkbox" id="i4-2"><label for="i4-2"><span class="box"></span><span class="item-text">Commission an original bitmap display font evoking the 40-column character set — not a trace of Apple's own artwork.</span></label></li>
+      <li class="item"><input type="checkbox" id="i4-3"><label for="i4-3"><span class="box"></span><span class="item-text">Theme the login/display manager in the platinum-and-phosphor-green Peach palette.</span></label></li>
+      <li class="item"><input type="checkbox" id="i4-4"><label for="i4-4"><span class="box"></span><span class="item-text">Choose and skin a lightweight desktop environment: window chrome, cursor set, icon set.</span></label></li>
+      <li class="item"><input type="checkbox" id="i4-5"><label for="i4-5"><span class="box"></span><span class="item-text">Build a default wallpaper and icon theme drawing on the hi-res six-color palette, original artwork only.</span></label></li>
+      <li class="item"><input type="checkbox" id="i4-6"><label for="i4-6"><span class="box"></span><span class="item-text">Add an "authentic mode" that boots straight into a chosen machine profile at 40-column green phosphor, desktop skipped entirely.</span></label></li>
+    </ul>
+  </section>
+
+  <section class="phase" id="p5">
+    <div class="phase-head">
+      <div class="phase-title"><span class="phase-num mono">05</span><h2>Sound &amp; System Voice</h2></div>
+      <span class="phase-count mono" data-count></span>
+    </div>
+    <p class="phase-desc">Half of what people remember about the Apple II is what it sounded like.</p>
+    <ul class="items">
+      <li class="item"><input type="checkbox" id="i5-1"><label for="i5-1"><span class="box"></span><span class="item-text">Record or recreate a startup chime and the classic single-beep bell as the default sound theme.</span></label></li>
+      <li class="item"><input type="checkbox" id="i5-2"><label for="i5-2"><span class="box"></span><span class="item-text">Map desktop events — error, notification, empty-trash — to period beeps and disk-drive chatter samples.</span></label></li>
+      <li class="item"><input type="checkbox" id="i5-3"><label for="i5-3"><span class="box"></span><span class="item-text">Package the sound theme to the freedesktop sound-theme spec so it works cleanly across GNOME, XFCE, and others.</span></label></li>
+      <li class="item"><input type="checkbox" id="i5-4"><label for="i5-4"><span class="box"></span><span class="item-text">Confirm emulator audio (Mockingboard, speaker click) and the desktop sound theme don't fight over the audio device.</span></label></li>
+    </ul>
+  </section>
+
+  <section class="phase" id="p6">
+    <div class="phase-head">
+      <div class="phase-title"><span class="phase-num mono">06</span><h2>Software Library &amp; Tools</h2></div>
+      <span class="phase-count mono" data-count></span>
+    </div>
+    <p class="phase-desc">An emulator with nothing to run is a demo. This is what makes it a computer.</p>
+    <ul class="items">
+      <li class="item"><input type="checkbox" id="i6-1"><label for="i6-1"><span class="box"></span><span class="item-text">Curate a launch library of public-domain and freeware titles, with a per-title license record kept alongside each one.</span></label></li>
+      <li class="item"><input type="checkbox" id="i6-2"><label for="i6-2"><span class="box"></span><span class="item-text">Build a disk-image browser/launcher listing titles, screenshots, and required machine profile.</span></label></li>
+      <li class="item"><input type="checkbox" id="i6-3"><label for="i6-3"><span class="box"></span><span class="item-text">Bundle a ProDOS / DOS 3.3 file browser for inspecting and extracting files from disk images.</span></label></li>
+      <li class="item"><input type="checkbox" id="i6-4"><label for="i6-4"><span class="box"></span><span class="item-text">Integrate an Applesoft/Integer BASIC editor with syntax highlighting and one-click run-in-emulator.</span></label></li>
+      <li class="item"><input type="checkbox" id="i6-5"><label for="i6-5"><span class="box"></span><span class="item-text">Package cross-development tools (cc65, a Merlin-compatible assembler) for people writing new 6502/65C02 software.</span></label></li>
+      <li class="item"><input type="checkbox" id="i6-6"><label for="i6-6"><span class="box"></span><span class="item-text">Set up a community submission pipeline for new titles, with a legal-review step before anything ships.</span></label></li>
+    </ul>
+  </section>
+
+  <section class="phase" id="p7">
+    <div class="phase-head">
+      <div class="phase-title"><span class="phase-num mono">07</span><h2>Packaging &amp; Appliance Release</h2></div>
+      <span class="phase-count mono" data-count></span>
+    </div>
+    <p class="phase-desc">Turning a working build into an appliance a stranger can import and trust.</p>
+    <ul class="items">
+      <li class="item"><input type="checkbox" id="i7-1"><label for="i7-1"><span class="box"></span><span class="item-text">Build the official .ova export with a right-sized virtual disk and sane default RAM/VRAM/CPU per machine profile.</span></label></li>
+      <li class="item"><input type="checkbox" id="i7-2"><label for="i7-2"><span class="box"></span><span class="item-text">Stand up an apt repository with signed Release files for peach-* packages and any third-party add-ons.</span></label></li>
+      <li class="item"><input type="checkbox" id="i7-3"><label for="i7-3"><span class="box"></span><span class="item-text">Bundle and auto-update VirtualBox Guest Additions in the appliance for shared clipboard, shared folders, and seamless-mode resizing.</span></label></li>
+      <li class="item"><input type="checkbox" id="i7-4"><label for="i7-4"><span class="box"></span><span class="item-text">Define a release naming scheme playing on the historical model line, plus a support/EOL window per release.</span></label></li>
+      <li class="item"><input type="checkbox" id="i7-5"><label for="i7-5"><span class="box"></span><span class="item-text">Set up mirrors and a torrent/checksum distribution path for the .ova, and for the installable ISO used to build it.</span></label></li>
+      <li class="item"><input type="checkbox" id="i7-6"><label for="i7-6"><span class="box"></span><span class="item-text">Write and rehearse an in-place upgrade path between releases, plus a documented "restore factory snapshot" baseline for the appliance.</span></label></li>
+    </ul>
+  </section>
+
+  <section class="phase" id="p8">
+    <div class="phase-head">
+      <div class="phase-title"><span class="phase-num mono">08</span><h2>QA, Accessibility &amp; Performance</h2></div>
+      <span class="phase-count mono" data-count></span>
+    </div>
+    <p class="phase-desc">Nostalgia is the theme, not an excuse — the modern layer has to hold up on its own terms.</p>
+    <ul class="items">
+      <li class="item"><input type="checkbox" id="i8-1"><label for="i8-1"><span class="box"></span><span class="item-text">Build a test matrix: every machine profile × every desktop flavor × host OS (Windows, macOS, Linux) running VirtualBox.</span></label></li>
+      <li class="item"><input type="checkbox" id="i8-2"><label for="i8-2"><span class="box"></span><span class="item-text">Performance-test the appliance's default resource allocation on a modest host (older laptop, 8GB RAM) so the modern shell doesn't choke the retro core.</span></label></li>
+      <li class="item"><input type="checkbox" id="i8-3"><label for="i8-3"><span class="box"></span><span class="item-text">Run an accessibility pass on the modern desktop layer — screen reader support, contrast, keyboard navigation.</span></label></li>
+      <li class="item"><input type="checkbox" id="i8-4"><label for="i8-4"><span class="box"></span><span class="item-text">Run a closed beta with retrocomputing testers, tracking emulation-accuracy bugs separately from packaging bugs.</span></label></li>
+    </ul>
+  </section>
+
+  <section class="phase" id="p9">
+    <div class="phase-head">
+      <div class="phase-title"><span class="phase-num mono">09</span><h2>Documentation &amp; Onboarding</h2></div>
+      <span class="phase-count mono" data-count></span>
+    </div>
+    <p class="phase-desc">Most new users will have never touched a real Apple II — the docs are the bridge.</p>
+    <ul class="items">
+      <li class="item"><input type="checkbox" id="i9-1"><label for="i9-1"><span class="box"></span><span class="item-text">Write a quick-start guide styled after the original owner's manuals: install through first boot into a machine profile.</span></label></li>
+      <li class="item"><input type="checkbox" id="i9-2"><label for="i9-2"><span class="box"></span><span class="item-text">Produce developer docs for packaging new titles into the library and contributing to the emulator core.</span></label></li>
+      <li class="item"><input type="checkbox" id="i9-3"><label for="i9-3"><span class="box"></span><span class="item-text">Stand up a wiki for community-maintained per-title compatibility notes.</span></label></li>
+      <li class="item"><input type="checkbox" id="i9-4"><label for="i9-4"><span class="box"></span><span class="item-text">Record a short tour screencast: boot sequence, sound theme, and software library in action.</span></label></li>
+    </ul>
+  </section>
+
+  <section class="phase" id="p10">
+    <div class="phase-head">
+      <div class="phase-title"><span class="phase-num mono">10</span><h2>Community &amp; Long-Term Upkeep</h2></div>
+      <span class="phase-count mono" data-count></span>
+    </div>
+    <p class="phase-desc">A distro is a commitment, not a release — this is what keeps it alive past launch week.</p>
+    <ul class="items">
+      <li class="item"><input type="checkbox" id="i10-1"><label for="i10-1"><span class="box"></span><span class="item-text">Publish a governance model and contribution guidelines: code of conduct, review process, release cadence.</span></label></li>
+      <li class="item"><input type="checkbox" id="i10-2"><label for="i10-2"><span class="box"></span><span class="item-text">Track upstream Debian security advisories and rebuild affected peach-* packages promptly.</span></label></li>
+      <li class="item"><input type="checkbox" id="i10-3"><label for="i10-3"><span class="box"></span><span class="item-text">Track GSSquared upstream releases and re-run the regression suite on every bump.</span></label></li>
+      <li class="item"><input type="checkbox" id="i10-4"><label for="i10-4"><span class="box"></span><span class="item-text">Set a policy for retiring software-library titles with broken licenses or superseded dumps.</span></label></li>
+      <li class="item"><input type="checkbox" id="i10-5"><label for="i10-5"><span class="box"></span><span class="item-text">Plan a press kit and launch announcement aimed at retrocomputing communities and outlets.</span></label></li>
+    </ul>
+  </section>
+
+  <footer>
+    Peach 2026 — an homage build, not an Apple product. Progress is stored only in this browser.
+  </footer>
+
+</div>
+
+<script src="js/app.js"></script>
+</body>
+</html>
