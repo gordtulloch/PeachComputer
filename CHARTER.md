@@ -2,7 +2,7 @@
 
 ## Mission
 
-Peach 2026 is an open-source, not-for-profit Linux distribution that imagines the Apple II line continuing past the IIGS into the present day. It ships as a Debian-based VirtualBox appliance that boots straight into a faithfully emulated Peach I, II, II+, //e, or IIGS — phosphor green, system beeps, disk-drive chatter and all — powered by **PeachSquared**, our fork of the open-source GSSquared emulator.
+Peach 2026 is an open-source, not-for-profit Linux distribution that imagines the Apple II line continuing past the IIGS into the present day. It ships as a Debian-based VirtualBox appliance that boots into a modern OS that faithfully emulates Peach I, II, II+, //e, or IIGS — phosphor green, system beeps, disk-drive chatter and all — powered by **PeachSquared**, our fork of the open-source GSSquared emulator.
 
 This is a preservation and homage project, not a commercial one. It exists so the character of the Apple II era stays usable and explorable on modern hardware, without needing a museum piece to do it.
 
