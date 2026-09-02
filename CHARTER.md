@@ -30,7 +30,7 @@ Everything not on this list — legitimate ROM sourcing, arm64 support, real-har
 
 ## Non-Goals
 
-- **Not a bare-metal distro**, at least for 1.0 — Peach 2026 targets VirtualBox exclusively; a bare-metal install path is out of scope unless the until the project produces 1.0.
+- **Not a bare-metal distro**, at least for 1.0 — Peach 2026 targets VirtualBox exclusively; a bare-metal install path is out of scope the project produces 1.0.
 - **Not an Apple /// project** — the machine roster is fixed at I, II, II+, //e, and IIGS.
 - **Not a silent GSSquared fork** — PeachSquared exists to package and extend, not to diverge; substantial enhancements are meant to be upstreamed back to GSSquared.
 - **Not a resolver of ROM copyright** — Peach 2026 ships without bundled ROMs and defers legitimate ROM licensing to a post-1.0 investigation rather than blocking on it.
