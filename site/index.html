@@ -88,16 +88,17 @@
       <div class="phase-title"><span class="phase-num mono">03</span><h2>Emulation Core</h2></div>
       <span class="phase-count mono" data-count></span>
     </div>
-    <p class="phase-desc">PeachSquared — our fork of GSSquared — is the heart of the machine; this is where accuracy either holds up or doesn't.</p>
+    <p class="phase-desc">PeachSquared — our fork of GSSquared — is the heart of the machine; this is where accuracy either holds up or doesn't, and most of what gets built here is meant to flow back upstream.</p>
     <ul class="items">
       <li class="item"><input type="checkbox" id="i3-1"><label for="i3-1"><span class="box"></span><span class="item-text">Fork GSSquared under the PeachSquared name once its license is confirmed (see Phase 01); set up an upstream remote and a merge/rebase policy for pulling in GSSquared fixes.</span></label></li>
-      <li class="item"><input type="checkbox" id="i3-2"><label for="i3-2"><span class="box"></span><span class="item-text">Package PeachSquared as a native .deb with proper dependency declarations and a peach-emulator-core metapackage.</span></label></li>
-      <li class="item"><input type="checkbox" id="i3-3"><label for="i3-3"><span class="box"></span><span class="item-text">Build machine-profile presets covering I, II, II+, //e, and IIGS timing, memory maps, and video modes.</span></label></li>
-      <li class="item"><input type="checkbox" id="i3-4"><label for="i3-4"><span class="box"></span><span class="item-text">Wire up .dsk/.po/.2mg/.woz disk-image handling with a front-end for mounting and creating images.</span></label></li>
-      <li class="item"><input type="checkbox" id="i3-5"><label for="i3-5"><span class="box"></span><span class="item-text">Implement Mockingboard and Apple II speaker emulation, routed correctly to ALSA/PipeWire.</span></label></li>
-      <li class="item"><input type="checkbox" id="i3-6"><label for="i3-6"><span class="box"></span><span class="item-text">Map USB gamepad input — passed through via VirtualBox's USB controller — to emulated paddle and joystick hardware.</span></label></li>
-      <li class="item"><input type="checkbox" id="i3-7"><label for="i3-7"><span class="box"></span><span class="item-text">Build a regression suite of known-good disk images and timing-sensitive programs to catch emulation-accuracy drift.</span></label></li>
-      <li class="item"><input type="checkbox" id="i3-8"><label for="i3-8"><span class="box"></span><span class="item-text">Decide whether USB passthrough is documented as a bridge to ADTPro-style transfers, for anyone using Peach to talk to real vintage hardware.</span></label></li>
+      <li class="item"><input type="checkbox" id="i3-2"><label for="i3-2"><span class="box"></span><span class="item-text">Adopt an upstream-first contribution policy: substantial PeachSquared enhancements get built as PRs against GSSquared and back-ported, not left to diverge silently in the fork.</span></label></li>
+      <li class="item"><input type="checkbox" id="i3-3"><label for="i3-3"><span class="box"></span><span class="item-text">Package PeachSquared as a native .deb with proper dependency declarations and a peach-emulator-core metapackage.</span></label></li>
+      <li class="item"><input type="checkbox" id="i3-4"><label for="i3-4"><span class="box"></span><span class="item-text">Build machine-profile presets covering I, II, II+, //e, and IIGS timing, memory maps, and video modes.</span></label></li>
+      <li class="item"><input type="checkbox" id="i3-5"><label for="i3-5"><span class="box"></span><span class="item-text">Wire up .dsk/.po/.2mg/.woz disk-image handling with a front-end for mounting and creating images.</span></label></li>
+      <li class="item"><input type="checkbox" id="i3-6"><label for="i3-6"><span class="box"></span><span class="item-text">Implement Mockingboard and Apple II speaker emulation, routed correctly to ALSA/PipeWire.</span></label></li>
+      <li class="item"><input type="checkbox" id="i3-7"><label for="i3-7"><span class="box"></span><span class="item-text">Map USB gamepad input — passed through via VirtualBox's USB controller — to emulated paddle and joystick hardware.</span></label></li>
+      <li class="item"><input type="checkbox" id="i3-8"><label for="i3-8"><span class="box"></span><span class="item-text">Build a regression suite of known-good disk images and timing-sensitive programs to catch emulation-accuracy drift.</span></label></li>
+      <li class="item"><input type="checkbox" id="i3-9"><label for="i3-9"><span class="box"></span><span class="item-text">Decide whether USB passthrough is documented as a bridge to ADTPro-style transfers, for anyone using Peach to talk to real vintage hardware.</span></label></li>
     </ul>
   </section>
 

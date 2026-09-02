@@ -15,6 +15,7 @@ Early planning stage. Nothing here boots yet — the repo currently holds the pr
 ## Repo layout
 
 ```
+CHARTER.md       One-page project charter: mission, audience, non-goals, what 1.0 means
 site/            Static website: the phase-by-phase build checklist
   index.html
   css/style.css
@@ -35,6 +36,7 @@ Then visit `http://localhost:8000`. The site has no external dependencies (no CD
 - **Naming:** "Peach" appears to carry no active trademark conflict for computer hardware/software, but that should be revisited if the project ever grows past hobbyist distribution.
 - **ROMs:** 1.0 ships without bundled ROMs. Users source their own for now; a legitimate, Apple-friendly licensing path is a post-1.0 investigation, not a launch blocker.
 - **PeachSquared:** GSSquared currently has no license specified upstream. Peach 2026 is proceeding on an *assumed* GPLv3 basis, but this needs to be confirmed with GSSquared's author before the fork ships — an unlicensed repo is all-rights-reserved by default.
+- **Upstream contributions:** Peach 2026 expects to make substantial contributions to GSSquared itself, not just consume it. Enhancements built for PeachSquared are meant to be back-ported to GSSquared as PRs — the fork is for Peach-specific packaging and machine-profile work, not a place to let real improvements diverge silently.
 
 See the [build checklist](site/index.html) (Phase 01 and Phase 03) for the live tracking of these items.
 
